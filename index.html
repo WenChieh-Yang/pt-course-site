@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>物理治療衛教動手做｜社區解任務一次就上手</title>
+  <meta name="description" content="物理治療衛教動手做：社區解任務一次就上手。結合物理治療、生成式 AI、全英語教學與社區衛教實作的課程網站。" />
+  <style>
+    :root {
+      --bg: #fffaf7;
+      --surface: rgba(255,255,255,0.82);
+      --surface-strong: #ffffff;
+      --text: #243042;
+      --muted: #5c6778;
+      --primary: #ff6b6b;
+      --secondary: #4ecdc4;
+      --accent: #ffd166;
+      --border: rgba(36, 48, 66, 0.08);
+      --shadow: 0 12px 30px rgba(36, 48, 66, 0.12);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --max-width: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255, 209, 102, 0.35), transparent 25%),
+        radial-gradient(circle at top right, rgba(78, 205, 196, 0.22), transparent 24%),
+        linear-gradient(180deg, #fff9f2 0%, #f5fcff 100%);
+      line-height: 1.7;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(calc(100% - 32px), var(--max-width));
+      margin: 0 auto;
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(14px);
+      background: rgba(255, 255, 255, 0.78);
+      border-bottom: 1px solid rgba(36, 48, 66, 0.06);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 72px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      display: grid;
+      place-items: center;
+      box-shadow: var(--shadow);
+      font-size: 1.05rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      align-items: center;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .nav-links a:hover { color: var(--primary); }
+
+    .hero {
+      padding: 72px 0 44px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .hero-card,
+    .glass-card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.55);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-card {
+      padding: 42px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255, 107, 107, 0.1);
+      color: var(--primary);
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.25;
+      margin: 0 0 12px;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      color: var(--secondary);
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      margin: 0 0 22px;
+      font-size: 1.02rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 20px rgba(36,48,66,0.1);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), #ff8b6a);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: rgba(78,205,196,0.12);
+      color: #138a82;
+      border-color: rgba(78,205,196,0.2);
+    }
+
+    .hero-side {
+      padding: 26px;
+      display: grid;
+      gap: 16px;
+      align-content: center;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.78)),
+        linear-gradient(135deg, rgba(255,107,107,0.15), rgba(78,205,196,0.16));
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .metric {
+      background: rgba(255,255,255,0.9);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      border: 1px solid var(--border);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 1.6rem;
+      color: var(--primary);
+    }
+
+    .section {
+      padding: 36px 0;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .section-header p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 720px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--surface-strong);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+
+    .instructor-card {
+      display: grid;
+      grid-template-columns: 112px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .avatar {
+      width: 112px;
+      height: 112px;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      background: #f3f6fb;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .tag {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #f4f7fb;
+      color: #4f5d73;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .goal-list,
+    .module-list,
+    .material-list,
+    .faq-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .goal-item,
+    .module-item,
+    .material-item,
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      background: linear-gradient(180deg, #ffffff, #fbfcff);
+    }
+
+    .goal-item {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .goal-index,
+    .module-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
+
+    .module-item {
+      display: grid;
+      grid-template-columns: 42px 1fr auto;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .module-actions,
+    .material-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .pill-link {
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255, 209, 102, 0.22);
+      color: #7b5b00;
+      font-size: 0.9rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .video-group {
+      margin-top: 24px;
+    }
+
+    .video-group h3 {
+      margin-bottom: 14px;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .video-card {
+      background: var(--surface-strong);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .video-frame {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      background: #e9eef5;
+    }
+
+    .video-frame iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .video-info {
+      padding: 16px 18px 18px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .gallery-main {
+      min-height: 280px;
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(135deg, rgba(255,107,107,0.15), rgba(78,205,196,0.15)),
+        linear-gradient(180deg, #fff, #f7fbff);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .gallery-mini {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .mini-tile {
+      min-height: 132px;
+      border-radius: 20px;
+      padding: 18px;
+      color: #243042;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: end;
+      background-size: cover;
+      background-position: center;
+      background-blend-mode: overlay;
+    }
+
+    .tile-1 { background: linear-gradient(135deg, rgba(255, 209, 102, 0.65), rgba(255,255,255,0.78)); }
+    .tile-2 { background: linear-gradient(135deg, rgba(78, 205, 196, 0.5), rgba(255,255,255,0.82)); }
+    .tile-3 { background: linear-gradient(135deg, rgba(255, 107, 107, 0.42), rgba(255,255,255,0.82)); }
+    .tile-4 { background: linear-gradient(135deg, rgba(146, 180, 255, 0.38), rgba(255,255,255,0.82)); }
+
+    .contact-box {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .footer {
+      padding: 30px 0 50px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .footer-inner {
+      border-top: 1px solid rgba(36,48,66,0.08);
+      padding-top: 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .grid-2,
+      .gallery-grid,
+      .video-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .module-item,
+      .contact-box,
+      .instructor-card {
+        grid-template-columns: 1fr;
+      }
+
+      .metric-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 680px) {
+      .nav-inner {
+        flex-direction: column;
+        align-items: start;
+        padding: 12px 0;
+      }
+
+      .nav-links {
+        gap: 12px;
+        font-size: 0.92rem;
+      }
+
+      .hero-card,
+      .hero-side,
+      .card {
+        padding: 22px;
+      }
+
+      .metric-grid,
+      .gallery-mini {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-actions,
+      .module-actions,
+      .material-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container nav-inner">
+      <a class="brand" href="#top">
+        <span class="brand-badge">PT</span>
+        <span>物理治療衛教動手做</span>
+      </a>
+      <div class="nav-links">
+        <a href="#about">課程介紹</a>
+        <a href="#instructor">教師介紹</a>
+        <a href="#goals">課程目標</a>
+        <a href="#modules">課程單元</a>
+        <a href="#materials">教材</a>
+        <a href="#videos">影片</a>
+        <a href="#gallery">相簿</a>
+        <a href="#contact">聯絡</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-card">
+          <span class="eyebrow">✨ 物理治療 × AI × 社區衛教 × EMI</span>
+          <h1>物理治療衛教動手做</h1>
+          <div class="subtitle">社區解任務一次就上手</div>
+          <p>
+            「物理治療臨床溝通」是一門結合專業、科技與實作的動感溝通實戰教材。
+            課程帶領學員運用生成式 AI，從主題構思到資料視覺化，完成具吸引力的社區衛教活動設計，
+            並在全英語教學情境中，自信整合物理治療專業與溝通表達能力。
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#modules">查看課程單元</a>
+            <a class="btn btn-secondary" href="#materials">前往教材專區</a>
+          </div>
+        </div>
+
+        <div class="glass-card hero-side">
+          <h2>課程亮點</h2>
+          <div class="metric-grid">
+            <div class="metric">
+              <strong>3</strong>
+              <span>核心課程單元</span>
+            </div>
+            <div class="metric">
+              <strong>9+</strong>
+              <span>教學與成果影片</span>
+            </div>
+            <div class="metric">
+              <strong>AI</strong>
+              <span>生成式工具整合</span>
+            </div>
+            <div class="metric">
+              <strong>EMI</strong>
+              <span>全英語專業應用</span>
+            </div>
+          </div>
+          <p style="margin:0; color: var(--muted);">
+            適合想把專業知識轉化為社區行動、提升衛教設計力與英語表達力的學員。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <h2>課程介紹</h2>
+            <p>從主題構思、活動設計、臨床溝通到成果呈現，透過生成式 AI 與專題實作，打造更有吸引力的社區衛教學習體驗。</p>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <h3>這門課在做什麼？</h3>
+            <p>
+              本教材打破傳統講授模式，鼓勵學員動手規劃與實作社區衛教講座，從需求理解、主題發想、素材整理、簡報設計到現場帶領，逐步建立完整的衛教溝通能力。
+            </p>
+            <p>
+              課程同時導入生成式 AI 與多元數位工具，協助學員提升內容設計效率、資料視覺化能力與創意表達，讓專業學習更貼近實際應用場域。
+            </p>
+          </div>
+          <div class="card">
+            <h3>學習特色</h3>
+            <div class="tag-row">
+              <span class="tag">全英語授課 EMI</span>
+              <span class="tag">生成式 AI 協作</span>
+              <span class="tag">專題導向學習</span>
+              <span class="tag">社區衛教實作</span>
+              <span class="tag">資料視覺化</span>
+              <span class="tag">臨床溝通應用</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="instructor">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <h2>教師介紹</h2>
+            <p>一位集創意與活力於一身的物理治療師，持續把專業、科技與教學創新整合成可實踐的學習經驗。</p>
+          </div>
+        </div>
+        <div class="card instructor-card">
+          <div class="avatar">
+            <img src="assets/images/teacher.png" alt="教師照片" />
+          </div>
+          <div>
+            <h3>楊文傑｜弘光科技大學物理治療系</h3>
+            <p>
+              一位集創意與活力於一身的物理治療師！任教於弘光科技大學物治系，不僅是運動防護與動作分析的職人，更是善用創新教學的鮮師，致力於將動感的運動處方與活潑的社區活動設計轉化為實踐課程。在教學現場，透過翻轉教室與專案導向學習，搭配多樣的數位工具與全英語教學，讓專業知識不再紙上談兵，帶領學生「動手」探索物理治療的各種樂趣！
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="goals">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <h2>課程目標</h2>
+            <p>從規劃、設計、執行到跨語言整合，培養學生在社區衛教與專業溝通上的實戰能力。</p>
+          </div>
+        </div>
+        <div class="goal-list">
+          <div class="goal-item">
+            <div class="goal-index">1</div>
+            <div>
+              <strong>理解規劃技巧</strong>
+              <div>能理解社區衛教課程的規劃技巧，並與生成式 AI 協作設計課程活動。</div>
+            </div>
+          </div>
+          <div class="goal-item">
+            <div class="goal-index">2</div>
+            <div>
+              <strong>設計與執行衛教講座</strong>
+              <div>能有效設計並執行一場針對社區特定主題的衛生教育講座。</div>
+            </div>
+          </div>
+          <div class="goal-item">
+            <div class="goal-index">3</div>
+            <div>
+              <strong>整合英文與專業學習</strong>
+              <div>將英文學習融合至物理治療專業學習，在國際化情境中提升表達與溝通能力。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="modules">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <h2>課程單元</h2>
+            <p>以實務應用為導向，逐步建立團體衛教、AI 協作設計與帶領技巧。</p>
+          </div>
+        </div>
+        <div class="module-list">
+          <div class="module-item">
+            <div class="module-icon">1</div>
+            <div>
+              <strong>團體衛教的原則與技巧</strong>
+              <div style="color: var(--muted);">掌握團體衛教的基本架構、訊息組織、互動安排與現場應對技巧。</div>
+            </div>
+            <div class="module-actions">
+              <a class="pill-link" href="#materials">教材</a>
+              <a class="pill-link" href="#videos">影片</a>
+            </div>
+          </div>
+          <div class="module-item">
+            <div class="module-icon">2</div>
+            <div>
+              <strong>AI 輔助衛教活動設計</strong>
+              <div style="color: var(--muted);">運用生成式 AI 進行主題發想、內容整理、腳本撰寫與資料視覺化設計。</div>
+            </div>
+            <div class="module-actions">
+              <a class="pill-link" href="#materials">教材</a>
+              <a class="pill-link" href="#videos">影片</a>
+            </div>
+          </div>
+          <div class="module-item">
+            <div class="module-icon">3</div>
+            <div>
+              <strong>溝通與帶領技巧</strong>
+              <div style="color: var(--muted);">強化臨床溝通、帶領節奏、回應互動與衛教現場表達能力。</div>
+            </div>
+            <div class="module-actions">
+              <a class="pill-link" href="#materials">教材</a>
+              <a class="pill-link" href="#videos">影片</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="materials">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <h2>教材專區</h2>
+            <p>教材檔案建議持續存放於 Google Drive；網站作為課程導覽與教材入口，方便學生快速查看與下載。</p>
+          </div>
+        </div>
+        <div class="material-list">
+          <div class="material-item">
+            <h3>投影片 PDF</h3>
+            <p style="margin: 8px 0 14px; color: var(--muted);">課程核心教材檔案，提供線上查看與雲端存取。</p>
+            <div class="material-actions">
+              <a class="btn btn-primary" target="_blank" rel="noopener" href="https://drive.google.com/file/d/1RwR7wlVZwt5yV4I7sPjdqNicsKDeYmt-/view?usp=drive_link">線上查看教材</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="videos">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <h2>影片專區</h2>
+            <p>整合課程介紹、AI 工具示範、衛教活動示範與成果紀錄，讓學習更具體、更容易操作。</p>
+          </div>
+        </div>
+
+        <div class="video-group">
+          <h3>課程介紹影片</h3>
+          <div class="video-grid">
+            <article class="video-card">
+              <div class="video-frame"><iframe src="https://www.youtube.com/embed/mq67i3-07OI" title="課程介紹影片" allowfullscreen loading="lazy"></iframe></div>
+              <div class="video-info"><strong>課程介紹影片</strong></div>
+            </article>
+          </div>
+        </div>
+
+        <div class="video-group">
+          <h3>AI 工具示範影片</h3>
+          <div class="video-grid">
+            <article class="video-card"><div class="video-frame"><iframe src="https://www.youtube.com/embed/HUZG7ayJFZw" title="AI工具示範影片 1" allowfullscreen loading="lazy"></iframe></div><div class="video-info"><strong>AI 工具示範 1</strong></div></article>
+            <article class="video-card"><div class="video-frame"><iframe src="https://www.youtube.com/embed/MOxpIg6ToiQ" title="AI工具示範影片 2" allowfullscreen loading="lazy"></iframe></div><div class="video-info"><strong>AI 工具示範 2</strong></div></article>
+            <article class="video-card"><div class="video-frame"><iframe src="https://www.youtube.com/embed/mPXwIStXDTQ" title="AI工具示範影片 3" allowfullscreen loading="lazy"></iframe></div><div class="video-info"><strong>AI 工具示範 3</strong></div></article>
+            <article class="video-card"><div class="video-frame"><iframe src="https://www.youtube.com/embed/GwnF2o0UOso" title="AI工具示範影片 4" allowfullscreen loading="lazy"></iframe></div><div class="video-info"><strong>AI 工具示範 4</strong></div></article>
+          </div>
+        </div>
+
+        <div class="video-group">
+          <h3>衛教活動示範影片</h3>
+          <div class="video-grid">
+            <article class="video-card"><div class="video-frame"><iframe src="https://www.youtube.com/embed/Fhak9CKsLfY" title="衛教活動示範影片 1" allowfullscreen loading="lazy"></iframe></div><div class="video-info"><strong>衛教活動示範 1</strong></div></article>
+            <article class="video-card"><div class="video-frame"><iframe src="https://www.youtube.com/embed/qmW5JBrJtxk" title="衛教活動示範影片 2" allowfullscreen loading="lazy"></iframe></div><div class="video-info"><strong>衛教活動示範 2</strong></div></article>
+            <article class="video-card"><div class="video-frame"><iframe src="https://www.youtube.com/embed/4YwOhic_ldI" title="衛教活動示範影片 3" allowfullscreen loading="lazy"></iframe></div><div class="video-info"><strong>衛教活動示範 3</strong></div></article>
+          </div>
+        </div>
+
+        <div class="video-group">
+          <h3>衛教成果紀錄影片</h3>
+          <div class="video-grid">
+            <article class="video-card"><div class="video-frame"><iframe src="https://www.youtube.com/embed/h2Mt6FtXZEY" title="衛教成果紀錄影片 1" allowfullscreen loading="lazy"></iframe></div><div class="video-info"><strong>衛教成果紀錄 1</strong></div></article>
+            <article class="video-card"><div class="video-frame"><iframe src="https://www.youtube.com/embed/2-pELUHvbiQ" title="衛教成果紀錄影片 2" allowfullscreen loading="lazy"></iframe></div><div class="video-info"><strong>衛教成果紀錄 2</strong></div></article>
+            <article class="video-card"><div class="video-frame"><iframe src="https://www.youtube.com/embed/GW60sqAif-4" title="衛教成果紀錄影片 3" allowfullscreen loading="lazy"></iframe></div><div class="video-info"><strong>衛教成果紀錄 3</strong></div></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="gallery">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <h2>課程照片與活動相簿</h2>
+            <p>建議精選照片放在網站首頁展示，完整高解析相簿仍保留在 Google Photos，方便持續更新與管理。</p>
+          </div>
+        </div>
+        <div class="gallery-grid">
+          <div class="gallery-main">
+            <h3>查看完整相簿</h3>
+            <p style="color: var(--muted);">
+              這裡可以放入課堂活動照、社區衛教現場、學生成果展示與互動過程。若之後你提供精選照片，我可以再把這一區改成真正的圖片牆。
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" target="_blank" rel="noopener" href="https://photos.app.goo.gl/pnJyaU6uPye5gCUw9">開啟 Google 相簿</a>
+            </div>
+          </div>
+          <div class="gallery-mini">
+            <div class="mini-tile tile-1">社區衛教活動</div>
+            <div class="mini-tile tile-2">AI 工具操作</div>
+            <div class="mini-tile tile-3">學生互動帶領</div>
+            <div class="mini-tile tile-4">成果展示紀錄</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="card contact-box">
+          <div>
+            <h2>聯絡與延伸資訊</h2>
+            <p style="margin: 0 0 14px; color: var(--muted);">歡迎透過電子郵件聯繫，或前往弘光科技大學物理治療系網站查看更多課程與系所資訊。</p>
+            <div class="material-actions">
+              <a class="btn btn-primary" href="mailto:wcyang@sunrise.hk.edu.tw">wcyang@sunrise.hk.edu.tw</a>
+              <a class="btn btn-secondary" target="_blank" rel="noopener" href="https://pht.hk.edu.tw/">系所網站</a>
+            </div>
+          </div>
+          <a class="btn btn-secondary" href="#top">回到頁首</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span>© 2026 物理治療衛教動手做｜GitHub Pages Course Site</span>
+      <span>Designed for a modern and lively course experience.</span>
+    </div>
+  </footer>
+</body>
+</html>
